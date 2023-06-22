@@ -1,5 +1,5 @@
 import { UserCursorController } from "./inteface";
-import { Serialier } from "./tools.package";
+import { Serializer } from "./tools.package";
 
 /**
  * A hidden cursor pointer reference, which get self initiated
@@ -24,8 +24,8 @@ export const UserCursor = function(): UserCursorController {
     const CURSOR = document.createElement('div');
     CURSOR.style.position = 'absolute';
 
-    Serialier.Autosave(CURSOR);
-    Serialier.LoadCursor(CURSOR);
+    Serializer.Autosave(CURSOR);
+    Serializer.LoadCursor(CURSOR);
     
     let x: number = +CURSOR.style.left.replace('px', '');
     let y: number = +CURSOR.style.top.replace('px', '');

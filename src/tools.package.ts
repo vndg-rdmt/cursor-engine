@@ -12,7 +12,7 @@ abstract class PackageTools {
  * Object-like state serialisation is not used due to overhead
  * and erialisation/derialisation available time amount.
  */
-export abstract class Serialier extends PackageTools {
+export abstract class Serializer extends PackageTools {
 
     /**
      * Makes UserCursor essential properties to be saved during
@@ -23,8 +23,8 @@ export abstract class Serialier extends PackageTools {
     public static Autosave(cursor: HTMLDivElement): void {
         function saving(): void {
             try {
-            sessionStorage.setItem(Serialier.PACKAGE_ID + "@x", cursor.style.left)
-            sessionStorage.setItem(Serialier.PACKAGE_ID + "@y", cursor.style.top)
+            sessionStorage.setItem(Serializer.PACKAGE_ID + "@x", cursor.style.left)
+            sessionStorage.setItem(Serializer.PACKAGE_ID + "@y", cursor.style.top)
             } catch {};
             window.removeEventListener('beforeunload', saving);
             return;
@@ -37,14 +37,14 @@ export abstract class Serialier extends PackageTools {
      * Restores object state if it's been saved previously
     */
     public static LoadCursor(cursor: HTMLDivElement): void {
-        const x = sessionStorage.getItem(Serialier.PACKAGE_ID + "@x");
+        const x = sessionStorage.getItem(Serializer.PACKAGE_ID + "@x");
         if (x != null) {
-            sessionStorage.removeItem(Serialier.PACKAGE_ID + "@x")
+            sessionStorage.removeItem(Serializer.PACKAGE_ID + "@x")
             cursor.style.left = x;
         };
-        const y = sessionStorage.getItem(Serialier.PACKAGE_ID + "@y");
+        const y = sessionStorage.getItem(Serializer.PACKAGE_ID + "@y");
         if (y != null) {
-            sessionStorage.removeItem(Serialier.PACKAGE_ID + "@y")
+            sessionStorage.removeItem(Serializer.PACKAGE_ID + "@y")
             cursor.style.top = y;
         };
         return;
