@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------------------------------
+ *  Copyright (c) RDMT STUDIOS 1986. All rights reserved.
+ *  Licensed under the Apache 2.0 License. See LICENSE in the project root for license information.
+ *-----------------------------------------------------------------------------------------------*/
+
+
 export interface UserCursorController {
     /**
      * ### Show cursor on a screen 
@@ -18,14 +24,14 @@ export interface UserCursorController {
      */
     Render(): void
     /**
-     * ### Stops cursor inner render loop
+     * ### Stop cursor inner render loop
      * Render loop is responsible for cursor inner logic processing,
      * which changes its state and UI.
      * @returns void
      */
     Freeze(): void
     /**
-     * ### Sets shift between real user pointer and UserCursor UI positions
+     * ### Set shift between real user pointer and UserCursor UI positions
      * How it works - for example user is holding his mouse pointer on a x: 10 and y: 20
      * coordinates. So, by default, cursor position wound be changed to x: 10 and y: 20,
      * but cursor width and height are, for example, 5px and 5px respectively. On a screen
