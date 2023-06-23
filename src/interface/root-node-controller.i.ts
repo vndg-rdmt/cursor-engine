@@ -4,32 +4,32 @@
  *-----------------------------------------------------------------------------------------------*/
 
 
-export interface UserCursorController {
+export interface CursorRootNodeController {
     /**
      * ### Show cursor on a screen 
      * @param customMountPoint change default (document.body) node to mount cursor on
      * @returns void
      */
-    Display(customMountPoint?: HTMLElement): void
+    Display(customMountPoint?: HTMLElement): void,
     /**
      * ### Remove cursor from the screen
      * @returns void
      */
-    Remove(): void
+    Remove(): void,
     /**
      * ### Start cursor inner rendering loop
      * Render loop is responsible for cursor inner logic processing,
      * which changes its state and UI.
      * @returns void
      */
-    Render(): void
+    Render(): void,
     /**
      * ### Stop cursor inner render loop
      * Render loop is responsible for cursor inner logic processing,
      * which changes its state and UI.
      * @returns void
      */
-    Freeze(): void
+    Freeze(): void,
     /**
      * ### Set shift between real user pointer and UserCursor UI positions
      * How it works - for example user is holding his mouse pointer on a x: 10 and y: 20
@@ -44,11 +44,10 @@ export interface UserCursorController {
      * @param yDifferencePX difference between user real pointer on a screen and a cursor ui position for Y coordinate
      * @returns void
      */
-    SetShift(xDifferencePX?: number, yDifferencePX?: number): void
+    SetShift(xDifferencePX?: number, yDifferencePX?: number): void,
     /**
      * ### Reference a user pointer node withing a callback
      * @returns a cursor node
      */
-    AccessCursorUI(accessCallback: (cursorNode: HTMLDivElement) => void): void
-}
-
+    AccessCursorUI(accessCallback: (cursorNode: HTMLDivElement) => void): void,
+};
