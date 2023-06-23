@@ -1,17 +1,23 @@
-Current stable version: 1.0.0
-Licence: Apache 2.0
+> Current stable version: Beta/1.1.0
+> Licence: Apache 2.0
+
+> Stable version is always represented by the main branch
 
 
 # User Cursor global object engine
 
-Constantly predefined, lazy calculated and fully on stack abstract object controller.
+Constantly predefined, lazy calculated and fully on stack abstract object under the global and unified controller.
+Package represent an lightweight engine for developing custom user cursors for frontend.
+
+> Fact that all usable and actual features are always represented within an entity interface is granted,
+> every inderect access to any entity within this package does not grants stability and proper work.
 > Actual module interface can always be found within this package or later in the `Docs` section.
 
-## Usage
+Usage
+-----
 
 **Import** cursor controller
-
-```ts
+```ts 
 import { UserCursor } from 'cursor-controller'
 ```
 
@@ -39,13 +45,15 @@ If method named with only uppercase leters, this means that this method can chan
 or its current realisation is not suitable at some moments, maybe.
 
 
-## Features
+Features
+--------
 
 - [x] Position serialisation
 
 > Cursor will stay in the same place even after reloading
 
-## Docs
+Docs
+----
 
 ```ts
 import { UserCursorController } from 'CursorController'
@@ -105,6 +113,6 @@ hits a node.
 
 #### Reference a user pointer node withing a callback
 ```ts
-REFERENCE_CURSOR(accessFunction: (cursor: HTMLDivElement) => undefined): void
+AccessCursorUI(accessCallback: (cursorUI: HTMLDivElement) => void): void
 ```
 @returns a cursor node

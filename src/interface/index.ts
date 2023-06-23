@@ -3,6 +3,7 @@
  *  Licensed under the Apache 2.0 License. See LICENSE in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
+import { CursorRootNodeController } from "./root-node-controller.i";
 
-import { UserCursor } from "./src/user-cursor.engine";
-import { UserCursorController } from "./src/user-cursor.interface";
+export interface UserCursorController extends
+    CursorRootNodeController {}
