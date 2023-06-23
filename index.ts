@@ -4,5 +4,5 @@
  *-----------------------------------------------------------------------------------------------*/
 
 
-import { UserCursor } from "./src/cursor";
-import { UserCursorController } from "./src/inteface";
+import { UserCursor } from "./src/user-cursor.engine";
+import { UserCursorController } from "./src/user-cursor.interface";

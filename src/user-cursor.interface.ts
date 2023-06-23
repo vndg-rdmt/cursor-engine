@@ -49,6 +49,6 @@ export interface UserCursorController {
      * ### Reference a user pointer node withing a callback
      * @returns a cursor node
      */
-    REFERENCE_CURSOR(accessFunction: (cursor: HTMLDivElement) => undefined): void
+    AccessCursorUI(accessCallback: (cursorNode: HTMLDivElement) => void): void
 }
 

@@ -4,7 +4,7 @@
  *-----------------------------------------------------------------------------------------------*/
 
 
-import { UserCursorController } from "./inteface";
+import { UserCursorController } from "./user-cursor.interface";
 import { Serializer } from "./tools.package";
 
 /**
@@ -79,8 +79,8 @@ export const UserCursor = function(): UserCursorController {
             dif_y -= dif_y + yDifferencePX;
             return;
         },
-        REFERENCE_CURSOR(accessFunction: (cursor: HTMLDivElement) => void): void {
-            accessFunction(CURSOR);
+        AccessCursorUI(accessCallback: (cursorNode: HTMLDivElement) => void): void {
+            accessCallback(CURSOR);
             return;
         },
     }
