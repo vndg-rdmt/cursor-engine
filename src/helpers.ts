@@ -1,4 +1,8 @@
-import { UCECursorEventsRegistry, UCEEvent } from "./typing.i"
+/*------------------------------------------------------------------------------------------------
+ *  RDMT STUDIOS 1986. All rights reserved.
+ *  Licensed under the Apache 2.0 License. See LICENSE in the project root for license information.
+ *-----------------------------------------------------------------------------------------------*/
+
 
 /**
  * Creates cursor root node for UI,
@@ -6,7 +10,7 @@ import { UCECursorEventsRegistry, UCEEvent } from "./typing.i"
  */
 export function createCursorNode(): HTMLDivElement {
     const cursor = document.createElement('div');
-    cursor.style.position       = 'absolute';
+    cursor.style.position       = 'fixed';
     cursor.style.pointerEvents  = 'none';
     cursor.style.userSelect     = 'none';
     cursor.style.display        = 'flex';
@@ -16,42 +20,3 @@ export function createCursorNode(): HTMLDivElement {
     cursor.style.height         = '0px'
     return cursor;
 };
-
-/**
- * Creates struct for holding cursor-events
- * handlers data.
-*/
-export function createEventsRegistery(): UCECursorEventsRegistry {
-    return new Map([
-        ['click',           []],
-        ['contextmenu',     []],
-        ['mousedown',       []],
-        ['mouseup',         []],
-        ['tagChange',       []],
-        ['targetChange',    []],
-        ['cursorDisplayd',  []],
-        ['cursorWillRemove',[]],
-    ]);
-};
-
-// /**
-//  * 
-//  * @param eventConstructor 
-//  * @param eventsRegistry 
-//  */
-// export function createEventsSwitch(eventConstructor: () => UCEEvent, eventsRegistry: UCECursorEventsRegistry) {
-//     // define true hidden event handlers
-//     for (const [_, handlersBuffer] of eventsRegistry) {
-//         for (const [callback, _] of handlersBuffer) {
-//             handlersBuffer.set(callback, () => callback(eventConstructor()));
-//         };
-//     };
-
-//     function switchFuncConstructor() {
-        
-//     };
-// };
-
-// export function createTagParser(valuesMapping: string, tagValue: string) {
-    
-// };

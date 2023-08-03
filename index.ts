@@ -4,6 +4,5 @@
  *-----------------------------------------------------------------------------------------------*/
 
 
-import { UserCursor } from "./src/user-cursor.engine";
-import { UserCursorController } from "./src/interface/";
-import { UCECursorEngine } from "./src/engine";
+export { UCECursorEngine } from "./src/engine";
+export type { UCEEvent, UCEEventHandler, UCECursorController } from "./src/typing.i";

@@ -1,11 +1,16 @@
-import { UCEDefaultScreen } from "../default-screen";
+/*------------------------------------------------------------------------------------------------
+ *  RDMT STUDIOS 1986. All rights reserved.
+ *  Licensed under the Apache 2.0 License. See LICENSE in the project root for license information.
+ *-----------------------------------------------------------------------------------------------*/
+
+
+import { UCEDefaultScreen } from "./default-screen";
 import { createCursorNode } from "./helpers";
-import { UserCursorController } from "./interface";
-import { PositionSerializer } from "./package-tools/position-serialiser";
-import { UCEEventType, UCEEvent, UCEEventHandler, UCECursorEventsRegistry  } from './typing.i'
+import { UCECursorController } from "./typing.i";
+import { PositionSerializer } from "./uce-std/position-serialiser";
+import { UCEEvent, UCEEventHandler } from './typing.i'
 
-
-export abstract class UCECursorEngine implements UserCursorController {
+export abstract class UCECursorEngine implements UCECursorController {
     protected constructor() {
         const cursor = createCursorNode();
         const ctx = this;
@@ -64,7 +69,7 @@ export abstract class UCECursorEngine implements UserCursorController {
                 ctx.onTargetChange(dumpState());
             };
             if (pointer_target !== null) {
-                const tag = pointer_target.getAttribute(ctx.cursorTag);
+                const tag = pointer_target.getAttribute(ctx.attributeTag);
                 if (tag !== pointer_tag) {
                     pointer_tag = tag;
                     ctx.onTagChange(dumpState());
@@ -112,35 +117,66 @@ export abstract class UCECursorEngine implements UserCursorController {
 
         this.InsertElements = (...elements: HTMLElement[]) => {
             cursor.append(...elements);
+            return;
         };
 
-        this.subscribeEvent = (eventType: keyof WindowEventMap, handler: UCEEventHandler) => {
-            const globalHandler = () => handler(dumpState());
-            ctx.eventHandlersRegistry.set(handler, globalHandler);
-            window.addEventListener(eventType, globalHandler);
-        };
-
-        this.unSubscribeEvent = (eventType: keyof WindowEventMap, handler: UCEEventHandler) => {
-            const globalHandler = () => handler(dumpState());
-        };
+        this.dumpState = dumpState;
     };
 
-    private readonly eventHandlersRegistry: Map<UCEEventHandler, VoidFunction> = new Map();
-    public readonly subscribeEvent:     (e: keyof WindowEventMap, handler: UCEEventHandler) => void;
-    public readonly unSubscribeEvent:   (e: keyof WindowEventMap, handler: UCEEventHandler) => void;
-
+    /**
+     * Hidden layer element, which acts like a container screen
+     * for cursor element and holds it within.
+     * 
+     * Cursor is mounted on {@link Display} to this element
+     */
     protected cursorScreen: HTMLElement = UCEDefaultScreen;
-    protected abstract cursorTag: string;
 
-    protected onTagChange:      UCEEventHandler = () => undefined;
-    protected onTargetChange:   UCEEventHandler = () => undefined;
-    protected onCursorDisplay:  UCEEventHandler = () => undefined;
-    protected onCursorRemove:   UCEEventHandler = () => undefined;
+    /**
+     * HTMLElement's custom attribute name, which must be
+     * used to make cursor interactive and
+     * customise its behaviour.
+     * 
+     * This tag name can be used whatever you want,
+     * engine gives you access to it and determines its changes,
+     * so, for example, can be used to set custom styling to cursor,
+     * like css cursor do.
+     * 
+     * This approach gives to ability to hide cursor interface
+     * at all to interact with it, just set custom attribute
+     * on HTMLElement, like classname or style attribute works.
+     */
+    protected abstract attributeTag: string;
+    
+    /**
+     * Used to retrive cursor's state.
+     * 
+     * Method is exposed because of overhead of attaching additional
+     * methods to handle all variaty of possible events, more like when
+     * they don't event used, so feel free to use it as:
+     * `window.addEventListener('event-type', (e) => {
+     *  ev = cursor.dumpState();
+     * })`
+     * 
+     * Subscribing to events within cursor interface will require
+     * additional struct to contain created UCEEventHandlers and
+     * deleting unsused handlers.
+     * 
+     * Maybe will be solved with WeakMap in future releases, but,
+     * due to possibility to use window eventlistening, which will
+     * be more efficient, it's not the feature which is being worked on.
+     */
+    protected readonly dumpState: () => UCEEvent;
+    
+    protected onTagChange:     UCEEventHandler = () => undefined;
+    protected onTargetChange:  UCEEventHandler = () => undefined;
+    protected onCursorDisplay: UCEEventHandler = () => undefined;
+    protected onCursorRemove:  UCEEventHandler = () => undefined;
 
+    protected readonly InsertElements: (...elements: HTMLElement[]) => void;
+    protected readonly SetShift:       (xDifferencePX: number, yDifferencePX: number) => void;
+    
     public readonly Display:        () => void;
     public readonly Remove:         () => void;
     public readonly Render:         () => void;
     public readonly Freeze:         () => void;
-    public readonly SetShift:       (xDifferencePX: number, yDifferencePX: number) => void;
-    public readonly InsertElements: (...elements: HTMLElement[]) => void;
 };

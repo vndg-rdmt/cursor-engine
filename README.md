@@ -1,8 +1,10 @@
-> Current stable version: Beta/1.1.0
+> Current stable version: 2.0.0
 > Licence: Apache 2.0
 
 > Stable version is always represented by the main branch
 
+> ! DOCS CURRENTLY CONTAINS INPROPER INFORMATION !
+> ! IT WILL BE REPLACED SOON !
 
 # User Cursor global object engine
 
