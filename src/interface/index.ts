@@ -3,7 +3,10 @@
  *  Licensed under the Apache 2.0 License. See LICENSE in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
+
+import { UserCursorEvents } from "./cursor-events.i";
 import { CursorRootNodeController } from "./root-node-controller.i";
 
 export interface UserCursorController extends
-    CursorRootNodeController {}
+    CursorRootNodeController,
+    UserCursorEvents {}

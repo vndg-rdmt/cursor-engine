@@ -4,6 +4,8 @@
  *-----------------------------------------------------------------------------------------------*/
 
 
-import { UserCursor } from "./src/user-cursor.engine";
-import { UserCursorController } from "./src/interface/";
-import { UCECursorEngine } from "./src/engine";
+export interface CursorEvent {};
+
+export type CursorEventCallback = (eventDump: CursorEvent) => number
+
+export interface UserCursorEvents {};

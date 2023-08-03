@@ -5,9 +5,11 @@
 
 
 import { UserCursorController } from "./interface/index.js";
-import { Serializer } from "./tools.package";
+import { Serializer } from "./engine-tools.js";
 
 /**
+ * ### User cursor global object
+ * 
  * A hidden cursor pointer reference, which get self initiated
  * through anonymous function. That makes pointer an
  * abstract object, which consist of a stack variables,

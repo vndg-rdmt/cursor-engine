@@ -7,10 +7,9 @@
 export interface CursorRootNodeController {
     /**
      * ### Show cursor on a screen 
-     * @param customMountPoint change default (document.body) node to mount cursor on
      * @returns void
      */
-    Display(customMountPoint?: HTMLElement): void,
+    Display(): void,
     /**
      * ### Remove cursor from the screen
      * @returns void
@@ -47,7 +46,8 @@ export interface CursorRootNodeController {
     SetShift(xDifferencePX?: number, yDifferencePX?: number): void,
     /**
      * ### Reference a user pointer node withing a callback
+     * @deprecated
      * @returns a cursor node
      */
-    AccessCursorUI(accessCallback: (cursorNode: HTMLDivElement) => void): void,
+    // AccessCursorUI(accessCallback: (cursorNode: HTMLDivElement) => void): void,
 };
