@@ -10,6 +10,17 @@ import { UCECursorController } from "./typing.i";
 import { PositionSerializer } from "./uce-std/position-serialiser";
 import { UCEEvent, UCEEventHandler } from './typing.i'
 
+
+/**
+ * ### User cursor engine
+ * 
+ * Direved cursors classes are able to properly work just after
+ * being extended from UCECursorEngine and defining abstract fields.
+ * 
+ * Custom behavior is achived by overwriting its protected static
+ * events handlers, which name shoud usually start on 'on', for example
+ * 'onTagChange'.
+ */
 export abstract class UCECursorEngine implements UCECursorController {
     protected constructor() {
         const cursor = createCursorNode();
@@ -120,7 +131,7 @@ export abstract class UCECursorEngine implements UCECursorController {
             return;
         };
 
-        this.dumpState = dumpState;
+        this.DumpState = dumpState;
     };
 
     /**
@@ -165,7 +176,7 @@ export abstract class UCECursorEngine implements UCECursorController {
      * due to possibility to use window eventlistening, which will
      * be more efficient, it's not the feature which is being worked on.
      */
-    protected readonly dumpState: () => UCEEvent;
+    protected readonly DumpState: () => UCEEvent;
     
     protected onTagChange:     UCEEventHandler = () => undefined;
     protected onTargetChange:  UCEEventHandler = () => undefined;
