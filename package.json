@@ -1,0 +1,28 @@
+{
+  "name": "cursor-engine",
+  "version": "1.0.0",
+  "description": "User cursor engine for creating lightweight custom and interactive event-driven cursors",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Belousov-Daniil/user-cursor-engine.git"
+  },
+  "keywords": [
+    "cursor",
+    "custom-cursor",
+    "user-cursor",
+    "typescript",
+    "web-ui",
+    "cursor-ui",
+    "cursor-engine"
+  ],
+  "author": "rdmt-studios",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Belousov-Daniil/user-cursor-engine/issues"
+  },
+  "homepage": "https://github.com/Belousov-Daniil/user-cursor-engine#readme"
+}

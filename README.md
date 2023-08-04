@@ -1,48 +1,57 @@
-> Current stable version: Beta/1.1.0
+> Current stable version: 1.0.0
 > Licence: Apache 2.0
 
-> Stable version is always represented by the main branch
 
+## User cursor engine
 
-# User Cursor global object engine
-
-Constantly predefined, lazy calculated and fully on stack abstract object under the global and unified controller.
-Package represent an lightweight engine for developing custom user cursors for frontend.
-
-> Fact that all usable and actual features are always represented within an entity interface is granted,
-> every inderect access to any entity within this package does not grants stability and proper work.
-> Actual module interface can always be found within this package or later in the `Docs` section.
+This package provides an ability to create custom cursors and attach custom events handling logic to it. It's just an 'engine', so it's pretty lightweight and fast. It may not provide you an out-of-box ability to define and use it raw, but an ability to respond to varriaty of 'missing events' in couple with dynamic cursor's UI container and so create anything accordingly to your needs.
 
 Usage
 -----
 
-**Import** cursor controller
+#### Creating custom cursor
 ```ts 
-import { UserCursor } from 'cursor-controller'
+
+import { UCECursorEngine } from "./cursor-engine";
+
+export class TestCursor extends UCECursorEngine {
+    // This tag is used to defined custom attribute name,
+    // which will be gathered by the cursor
+    protected attributeTag: string = 'cursor-attr';
+
+    public constructor() {
+        super();
+        // Insert UI to the cursor, because cursor itself node
+        // is just an empty container
+        this.insertElements(customHTMLElement);
+    };
+};
 ```
 
-Cursor, as an UI element, is already predefined and 'lazy calculated' due to JS/TS features, only when it's used first time.
+#### Running cursor
+```ts
+const userCursor = new TestCursor();
 
-Cursor has inner render cycle, where it's state is can be dynamically changed. `Render` method call starts it.
-To make cursor visible, call `Display` method
+// starts cursor rendering and turns on event responding
+userCursor.Render();
+
+// makes visible on screen
+userCursor.Display();
+```
+
+Cursor does not have any visible styling, so to customize it's UI you need to insert element to it using method:
 
 ```ts
-UserCursor.Render();
-UserCursor.Display();
+userCursor.insertElements()
 ```
 
-Now cursor is rendered on a screen, but you wount be able to see it, because now it's just a defaut styled div node.
-Cursor behavior, apperience and etc is changed within `REFERENCE_CURSOR` method call. It recevies a callback, which can
-accept a HTMLElement. Within this callback you can directly access a UserCursor node.
+> First uppercase of a cursor property/method means it's public, while lowercase - protected.
 
-```ts
-UserCursor.REFERENCE_CURSOR((e) => {
-    e.className = 'my-cursor';
-});
-```
+`Hide()` method removes it from screen, and `Freeze()` - stops its render cycle, which means the cursor will be freezed according to it's during state on a screen.
 
-If method named with only uppercase leters, this means that this method can change its signature, naming, behavior and etc,
-or its current realisation is not suitable at some moments, maybe.
+Cursor gives you ability to manage custom events, linked with its life cycle, like pointer target or targeted element cursor sattribute changed.
+
+Events fired not only when cursor moves, but something changed under the pointer. This means that it's not neccessary to move cursor to lookup for changes, it will do it under the hood, meaning more proper events handling of a moving elements for example.
 
 
 Features
@@ -52,7 +61,7 @@ Features
 
 > Cursor will stay in the same place even after reloading
 
-Docs
+Interface
 ----
 
 ```ts
@@ -69,9 +78,9 @@ Display(customMountPoint?: HTMLElement): void
 @returns void
 
 
-#### Remove cursor from the screen
+#### Hide cursor
 ```ts
-Remove(): void
+Hide(): void
 ```
 @returns void
 
@@ -94,9 +103,11 @@ which changes its state and UI.
 @returns void
 
 
+## Docs
+
 #### Set shift between real user pointer and UserCursor UI positions
 ```ts
-SetShift(xDifferencePX?: number, yDifferencePX?: number): void
+setShift(xDifferencePX?: number, yDifferencePX?: number): void
 ```
 How it works - for example user is holding his mouse pointer on a x: 10 and y: 20
 coordinates. So, by default, cursor position wound be changed to x: 10 and y: 20,
@@ -111,8 +122,86 @@ hits a node.
 @returns void
 
 
-#### Reference a user pointer node withing a callback
+#### Add elements
 ```ts
-AccessCursorUI(accessCallback: (cursorUI: HTMLDivElement) => void): void
+protected insertElements(...elements: HTMLElement[]): void
 ```
-@returns a cursor node
+Insert any elements to cursor.
+
+
+#### Mounted screen
+
+Hidden layer element, which acts like a container screen
+for cursor element and holds it within.
+
+Cursor is mounted on `Display()` to this element, so it
+can be changed statically or dynamically.
+
+```ts
+protected cursorScreen: HTMLElement = UCEDefaultScreen
+```
+
+#### Custom cursor attribute name
+
+HTMLElement's custom attribute name, which must be
+used to make cursor interactive and
+customise its behaviour.
+
+This tag name can be used whatever you want,
+engine gives you access to it and determines its changes,
+so, for example, can be used to set custom styling to cursor,
+like css cursor do.
+
+This approach gives to ability to hide cursor interface
+at all to interact with it, just set custom attribute
+on HTMLElement, like classname or style attribute works.
+
+```ts
+protected abstract attributeTag: string
+```
+    
+#### Get current cursor state
+
+Used to retrive cursor's state.
+
+Method is exposed because of overhead of attaching additional
+methods to handle all variaty of possible events, more like when
+they don't event used, so feel free to use it as:
+`window.addEventListener('event-type', (e) => {
+ ev = cursor.dumpState();
+})`
+
+Subscribing to events within cursor interface will require
+additional struct to contain created UCEEventHandlers and
+deleting unsused handlers.
+
+Maybe will be solved with WeakMap in future releases, but,
+due to possibility to use window eventlistening, which will
+be more efficient, it's not the feature which is being worked on.
+
+```ts
+protected readonly dumpState: () => UCEEvent
+```
+    
+#### Events
+```ts
+/**
+ * Fired when attribute value of a target is changed
+ */
+protected onTagChange:     UCEEventHandler = () => undefined;
+/**
+ * Fired when target which cursor is currently
+ * pointing to changed.
+ */
+protected onTargetChange:  UCEEventHandler = () => undefined;
+/**
+ * Fired when cursor node is being mouted to the screen.
+ * Event fired after node was mounted.
+ */
+protected onCursorDisplay: UCEEventHandler = () => undefined;
+/**
+ * Fired when cursor is being removed from the screen.
+ * Event is fired before node is removed.
+ */
+protected onCursorRemove:  UCEEventHandler = () => undefined;
+```
