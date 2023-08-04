@@ -11,10 +11,10 @@ export interface UCECursorController {
      */
     Display(): void,
     /**
-     * ### Remove cursor from the screen
+     * ### Hide cursor
      * @returns void
      */
-    Remove(): void,
+    Hide(): void,
     /**
      * ### Start cursor inner rendering loop
      * Render loop is responsible for cursor inner logic processing,
@@ -29,28 +29,6 @@ export interface UCECursorController {
      * @returns void
      */
     Freeze(): void,
-    /**
-     * ### Set shift between real user pointer and UserCursor UI positions
-     * How it works - for example user is holding his mouse pointer on a x: 10 and y: 20
-     * coordinates. So, by default, cursor position wound be changed to x: 10 and y: 20,
-     * but cursor width and height are, for example, 5px and 5px respectively. On a screen
-     * it wound look like cursor triggers events when it's only his left upper corner hits a html node.
-     * 
-     * So to 'fix' that, you can set xDifferencePX and yDifferencePX. In this situatuation, after
-     * you set this values to 5 and 5, cursor will look proper and trigger events when its center
-     * hits a node.
-     * @param xDifferencePX difference between user real pointer on a screen and a cursor ui position for X coordinate
-     * @param yDifferencePX difference between user real pointer on a screen and a cursor ui position for Y coordinate
-     * @deprecated
-     * @returns void
-     */
-    // SetShift(xDifferencePX?: number, yDifferencePX?: number): void,
-    /**
-     * ### Reference a user pointer node withing a callback
-     * @deprecated
-     * @returns a cursor node
-     */
-    // AccessCursorUI(accessCallback: (cursorNode: HTMLDivElement) => void): void,
 };
 
 

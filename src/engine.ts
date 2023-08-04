@@ -100,7 +100,7 @@ export abstract class UCECursorEngine implements UCECursorController {
             return;
         };
 
-        this.Remove = (): void => {
+        this.Hide = (): void => {
             ctx.onCursorRemove(dumpState());
             cursor.remove();
             return;
@@ -120,25 +120,26 @@ export abstract class UCECursorEngine implements UCECursorController {
             return;
         };
 
-        this.SetShift = (xDifferencePX: number = 0, yDifferencePX: number = 0): void => {
+        this.setShift = (xDifferencePX: number = 0, yDifferencePX: number = 0): void => {
             dif_x -= dif_x + xDifferencePX;
             dif_y -= dif_y + yDifferencePX;
             return;
         };
 
-        this.InsertElements = (...elements: HTMLElement[]) => {
+        this.insertElements = (...elements: HTMLElement[]) => {
             cursor.append(...elements);
             return;
         };
 
-        this.DumpState = dumpState;
+        this.dumpState = dumpState;
     };
 
     /**
      * Hidden layer element, which acts like a container screen
      * for cursor element and holds it within.
      * 
-     * Cursor is mounted on {@link Display} to this element
+     * Cursor is mounted on {@link Display} to this element, so it
+     * can be changed statically or dynamically.
      */
     protected cursorScreen: HTMLElement = UCEDefaultScreen;
 
@@ -176,18 +177,68 @@ export abstract class UCECursorEngine implements UCECursorController {
      * due to possibility to use window eventlistening, which will
      * be more efficient, it's not the feature which is being worked on.
      */
-    protected readonly DumpState: () => UCEEvent;
+    protected readonly dumpState: () => UCEEvent;
     
+    /**
+     * Fired when attribute value of a target is changed
+     */
     protected onTagChange:     UCEEventHandler = () => undefined;
+    /**
+     * Fired when target which cursor is currently
+     * pointing to changed.
+     */
     protected onTargetChange:  UCEEventHandler = () => undefined;
+    /**
+     * Fired when cursor node is being mouted to the screen.
+     * Event fired after node was mounted.
+     */
     protected onCursorDisplay: UCEEventHandler = () => undefined;
+    /**
+     * Fired when cursor is being removed from the screen.
+     * Event is fired before node is removed.
+     */
     protected onCursorRemove:  UCEEventHandler = () => undefined;
 
-    protected readonly InsertElements: (...elements: HTMLElement[]) => void;
-    protected readonly SetShift:       (xDifferencePX: number, yDifferencePX: number) => void;
+    /**
+     * Inserts html elements to cursor container
+     */
+    protected readonly insertElements: (...elements: HTMLElement[]) => void;
+    /**
+     * ### Set shift between real user pointer and UserCursor UI positions
+     * 
+     * Sets shift attributes so the cursor can be permamently
+     * shifted on x and/or y coordinates
+     * 
+     * How it works - for example user is holding his mouse pointer on a x: 10 and y: 20
+     * coordinates. So, by default, cursor position wound be changed to x: 10 and y: 20,
+     * but cursor width and height are, for example, 5px and 5px respectively. On a screen
+     * it wound look like cursor triggers events when it's only his left upper corner hits a html node.
+     * 
+     * So to 'fix' that, you can set xDifferencePX and yDifferencePX. In this situatuation, after
+     * you set this values to 5 and 5, cursor will look proper and trigger events when its center
+     * hits a node.
+     * @param xDifferencePX difference between user real pointer on a screen and a cursor ui position for X coordinate
+     * @param yDifferencePX difference between user real pointer on a screen and a cursor ui position for Y coordinate
+     * @returns void
+     */
+    protected readonly setShift: (xDifferencePX: number, yDifferencePX: number) => void;
     
+    /**
+     * Displays cursor on screen. Does not affects rendering but
+     * shows the container.
+     */
     public readonly Display:        () => void;
-    public readonly Remove:         () => void;
+    /**
+     * Hides cursor. Does not affects rendering but
+     * hides the container.
+     */
+    public readonly Hide:           () => void;
+    /**
+     * Starts cursor rendering cycle. Does not affect on container
+     */
     public readonly Render:         () => void;
+    /**
+     * Stops cursor rendering cycle. Does not affect on container
+    */
     public readonly Freeze:         () => void;
 };
