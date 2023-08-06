@@ -16,7 +16,8 @@ export function createCursorNode(): HTMLDivElement {
     cursor.style.display        = 'flex';
     cursor.style.justifyContent = 'center';
     cursor.style.alignItems     = 'center';
-    cursor.style.width          = '0px'
-    cursor.style.height         = '0px'
+    cursor.style.width          = '0px';
+    cursor.style.height         = '0px';
+    cursor.style.overflow       = 'visible';
     return cursor;
 };
